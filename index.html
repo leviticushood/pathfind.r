@@ -1,23 +1,67 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathfind.r - Free Group Itinerary Planner</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathfind.r - Free Group Itinerary Planner</title>
 
-  </head>
-  <body>
-    <header>
-      <h1>Pathfind.r</h1>
-      <p>Pathfindr is a free, lightweight web application that generates a user-friendly, templated layout to simplify group trip planning. Pathfindr will allow its users to create, edit, and share detailed travel itineraries for improved group coordination. Its core features will allow exported itineraries such as ICS calendar files and PDFs. I chose this project to pursue, because I am an avid group traveler and often create itineraries for my family to follow along. The project itself will challenge my experience (or lack thereof) by incorporating back-end and front-end design, applying my cloud stack development education, and manipulating databases using various programming languages.</p>
-    </header>
+  <!-- Leaflet CSS (for future map use) -->
+  <link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+    crossorigin=""
+  />
 
+  <!-- Your custom CSS file -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Pathfind.r</h1>
+    <p>
+      Pathfindr is a free, lightweight web application that generates a user-friendly layout 
+      to simplify group trip planning. Users can create, edit, and share detailed itineraries 
+      for better coordination. Core features include exporting itineraries as ICS calendar files 
+      and PDFs. This project combines front-end and back-end design, cloud stack development, 
+      and database management.
+    </p>
+  </header>
+
+  <main>
+    <h2>Create New Event</h2>
     <form id="form">
-      <label>Event Name <input id="
-      <label>City <input id="city" placeholder="e.g., Tucson" /></label>
-      <label>Start Date <input id="date" type="date" /></label>
-      <label>End Date <input id="date" type="date" /></label>
-      <label></label>
+      <label>
+        Event Name:
+        <input id="event" type="text" placeholder="e.g., Family Dinner" />
+      </label>
+      <br>
+
+      <label>
+        City:
+        <input id="city" type="text" placeholder="e.g., Tucson" />
+      </label>
+      <br>
+
+      <label>
+        Start Date:
+        <input id="start-date" type="date" />
+      </label>
+      <br>
+
+      <label>
+        End Date:
+        <input id="end-date" type="date" />
+      </label>
+      <br>
+
+      <button type="submit">Add Event</button>
     </form>
-  </body>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pathfind.r by Levi Hood</p>
+  </footer>
+</body>
+</html>
