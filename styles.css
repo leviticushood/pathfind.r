@@ -1,0 +1,15 @@
+* { box-sizing: border-box }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; color: #e9eef5; background: #0b0f14 }
+.container { max-width: 960px; margin: 0 auto; padding: 16px }
+.site-header, .topbar { display: flex; align-items: center; gap: 12px; padding: 16px; background: #121720; border-bottom: 1px solid #1e2633 }
+.site-header h1, .topbar h2 { margin: 0 }
+.topbar .grow { flex: 1 }
+.hero { padding: 24px; background: #121720; border: 1px solid #1e2633; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.35) }
+.bullets { margin: 0 0 16px 0; padding-left: 18px }
+label { display: grid; gap: 6px; margin-bottom: 12px; font-size: 14px }
+input, button { font: inherit }
+input { padding: 10px 12px; border-radius: 10px; border: 1px solid #1e2633; color: #0b0f14 }
+button.primary { background: #7aa2f7; color: #0b0f14; border: 0; padding: 10px 16px; border-radius: 12px; cursor: pointer }
+button.primary:hover { background: #89d1c8 }
+.card { padding: 12px; margin: 8px 0; background: #121720; border: 1px solid #1e2633; border-radius: 12px; display: flex; justify-content: space-between; align-items: center }
+.site-footer { padding: 16px; text-align: center; color: #a7b4c3; border-top: 1px solid #1e2633 }
