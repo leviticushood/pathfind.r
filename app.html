@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pathfindr — Itinerary Builder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <a href="index.html" aria-label="Back to intro">← Back</a>
+    <h2 class="grow">Itinerary Builder</h2>
+    <button id="exportIcs">Export ICS</button>
+  </nav>
+
+  <main class="container">
+    <section>
+      <h3>Create new event</h3>
+      <form id="form">
+        <label>Event name <input id="event" type="text" required /></label>
+        <label>City <input id="city" type="text" /></label>
+        <label>Start date <input id="start-date" type="date" required /></label>
+        <label>End date <input id="end-date" type="date" required /></label>
+        <button type="submit" class="primary">Add event</button>
+      </form>
+    </section>
+
+    <section>
+      <h3>Itinerary</h3>
+      <ul id="events"></ul>
+    </section>
+  </main>
+
+  <script>
+    const list = document.getElementById("events");
+    const key = "pathfindr_events";
+    const read = () => JSON.parse(localStorage.getItem(key) || "[]");
+    const write = (v) => localStorage.setItem(key, JSON.stringify(v));
+
+    function render() {
+      list.innerHTML = "";
+      read().forEach((e, i) => {
+        const li = document.createElement("li");
+        li.textContent = `${e.name} — ${e.city || "Unknown"} — ${e.start} to ${e.end}`;
+        li.className = "card";
+        const del = document.createElement("button");
+        del.textContent = "Remove";
+        del.onclick = () => { const all = read(); all.splice(i,1); write(all); render(); };
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById("form").addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const name = document.getElementById("event").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const start = document.getElementById("start-date").value;
+      const end = document.getElementById("end-date").value;
+      if (!name || !start || !end) return;
+
+      const all = read();
+      all.push({ name, city, start, end });
+      write(all);
+      ev.target.reset();
+      render();
+    });
+
+    document.getElementById("exportIcs").addEventListener("click", () => {
+      const events = read();
+      if (!events.length) return alert("No events to export.");
+      const pad = (n) => String(n).padStart(2, "0");
+      const toICSDate = (d) => {
+        const dt = new Date(d);
+        return dt.getUTCFullYear()
+          + pad(dt.getUTCMonth()+1)
+          + pad(dt.getUTCDate()) + "T000000Z";
+      };
+      const lines = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Pathfindr//EN"
+      ];
+      events.forEach((e,i) => {
+        lines.push(
+          "BEGIN:VEVENT",
+          `UID:${i}@pathfindr.local`,
+          `DTSTAMP:${toICSDate(e.start)}`,
+          `DTSTART:${toICSDate(e.start)}`,
+          `DTEND:${toICSDate(e.end)}`,
+          `SUMMARY:${e.name} (${e.city || ""})`,
+          "END:VEVENT"
+        );
+      });
+      lines.push("END:VCALENDAR");
+      const blob = new Blob([lines.join("\r\n")], { type: "text/calendar" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "pathfindr_itinerary.ics";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    render();
+  </script>
+</body>
+</html>
